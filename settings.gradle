@@ -1,0 +1,1 @@
+include ':app', ':SimpleChart_example', ':SimpleChart'

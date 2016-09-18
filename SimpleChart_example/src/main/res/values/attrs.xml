@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PanelView">
+        <attr name="maxPercent" format="float"/>
+        <attr name="selectPercent" format="float"/>
+        <attr name="arcColor" format="color"/>
+        <attr name="arcWidth" format="dimension"/>
+        <attr name="android:text"/>
+        <attr name="tikeCount" format="integer"/>
+        <attr name="pointerColor" format="color"/>
+        <attr name="pointerRadius" format="dimension"/>
+        <attr name="android:textSize"/>
+    </declare-styleable>
+
+    <declare-styleable name="MyTabIndicatorLayout">
+        <attr name="tabCount" format="integer"></attr>
+        <attr name="tabColor" format="color"></attr>
+    </declare-styleable>
+    <declare-styleable name="MyIncreaseChartView">
+        <!--柱子颜色-->
+        <attr name="rectColor" format="color"></attr>
+        <!--柱子宽度-->
+        <attr name="rectWidth" format="dimension"></attr>
+        <!--X轴文字大小-->
+        <attr name="xTextSize" format="dimension"></attr>
+        <!--Y轴文字的大小-->
+        <attr name="yTextSize" format="dimension"></attr>
+        <!--背景线颜色-->
+        <attr name="backLineColor" format="color"></attr>
+        <!--X轴是否显示-->
+        <attr name="xEnable" format="boolean"></attr>
+        <!--Y轴是否显示-->
+        <attr name="yEnable" format="boolean"></attr>
+        <!--坐标轴的颜色-->
+        <attr name="axisColor" format="color"></attr>
+        <!--背景线是否显示-->
+        <attr name="backLineEnable" format="boolean"></attr>
+        <!--坐标轴文字的颜色-->
+        <attr name="axisTextColor" format="color"></attr>
+        <!--y轴单位颜色-->
+        <attr name="unitText" format="string"></attr>
+        <!--第一个柱子颜色-->
+        <attr name="firstRectColor" format="color"></attr>
+        <!--第二个柱子颜色-->
+        <attr name="secondRectColor" format="color"></attr>
+        <!--折线颜色-->
+        <attr name="lineColor" format="color"></attr>
+    </declare-styleable>
+
+</resources>

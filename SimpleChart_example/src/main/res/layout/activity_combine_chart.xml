@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.liushuai.myapplication.activity.CombineChartActivity">
+
+    <com.liushuai.mylibrary.view.MyCombinedView
+        android:id="@+id/my_combined_view_chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="#FFF"
+        app:axisColor="#f0f0f0"
+        app:axisTextColor="#808080"
+        app:firstRectColor="#3f69c3"
+        app:lineColor="#ffc502"
+        app:rectWidth="30px"
+        app:secondRectColor="#3fb88c"
+        app:xEnable="true"
+        app:yEnable="true"
+        />
+
+</RelativeLayout>
