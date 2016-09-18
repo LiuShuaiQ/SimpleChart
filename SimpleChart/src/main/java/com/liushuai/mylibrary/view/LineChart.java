@@ -60,17 +60,27 @@ public class LineChart extends BaseBarAndLineChart {
     protected void drawPerX(float xItemAxis, float xItemL, int i, Canvas canvas) {
         //画x轴的数据
         canvas.drawText(mChartData.getXAxisString().get(i), xItemAxis, mHeight + paddingTop + ChartCalUtils.getTextHeight(mAxisPaint) + 5, mXAxisTextPaint);
-        //画小圆点
-        canvas.drawCircle(xItemAxis, paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i], Float.valueOf(mChartData.getYRightAxisString().get(0)), Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight), 10, mLinePaint);
-        if (i > 0) {
-            canvas.drawLine(xItemAxis - xItemL,
-                    paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i - 1], Float.valueOf(mChartData.getYRightAxisString().get(0)), Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
-                    xItemAxis,
-                    paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i],
-                            Float.valueOf(mChartData.getYRightAxisString().get(0)),
-                            Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
-                    mLinePaint);
+
+        for (int i1 = 0; i1 < mChartData.getValues().length; i1++) {
+            //根据不同的图改变颜色
+            if (i1 < mChartData.getColors().length) {
+                mLinePaint.setColor(mChartData.getColors()[i1]);
+            }
+            //画小圆点
+            canvas.drawCircle(xItemAxis, paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i1][i],
+                    Float.valueOf(mChartData.getYRightAxisString().get(0)), Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
+                    10, mLinePaint);
+            if (i > 0) {
+                canvas.drawLine(xItemAxis - xItemL,
+                        paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i1][i - 1], Float.valueOf(mChartData.getYRightAxisString().get(0)), Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
+                        xItemAxis,
+                        paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[i1][i],
+                                Float.valueOf(mChartData.getYRightAxisString().get(0)),
+                                Float.valueOf(mChartData.getYRightAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
+                        mLinePaint);
+            }
         }
+
     }
 
     @Override

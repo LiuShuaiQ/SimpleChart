@@ -1,5 +1,7 @@
 package com.liushuai.mylibrary.data;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +19,18 @@ public abstract class Data implements IData {
      */
     private List<List<IEntity>> mEntities;
 
-    public Data(List<String> XAxisString, List<List<IEntity>> entities) {
+    private int[] mColors;
+
+    public Data(List<String> XAxisString, List<List<IEntity>> entities,int[] colors) {
         mXAxisString = XAxisString;
         mEntities = entities;
+        mColors = colors;
     }
 
-    public Data(List<String> XAxisString, float[][] fs) {
+    public Data(List<String> XAxisString, float[][] fs,int[] colors) {
         mXAxisString = XAxisString;
         mEntities = toEntity(fs);
+        mColors = colors;
     }
 
     @Override
@@ -80,5 +86,15 @@ public abstract class Data implements IData {
             entities.add(temp);
         }
         return entities;
+    }
+
+    @Override
+    public int[] getColors() {
+        return mColors;
+    }
+
+    @Override
+    public void setColors(int[] colors) {
+        mColors = colors;
     }
 }

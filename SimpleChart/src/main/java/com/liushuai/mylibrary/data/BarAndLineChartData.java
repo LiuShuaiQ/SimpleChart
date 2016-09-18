@@ -1,5 +1,7 @@
 package com.liushuai.mylibrary.data;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +27,15 @@ public class BarAndLineChartData extends Data {
      */
     private int mYAxisCount = 5;
 
-    public BarAndLineChartData(List<String> XAxisString, List<List<IEntity>> entities) {
-        super(XAxisString, entities);
+    public BarAndLineChartData(List<String> XAxisString, List<List<IEntity>> entities, int[] colors) {
+        super(XAxisString, entities,colors);
         mYLeftAxisString = new ArrayList<>(5);
         mYRightAxisString = new ArrayList<>(5);
         initYAxisString();
     }
 
-    public BarAndLineChartData(List<String> XAxisString, float[][] fs) {
-        super(XAxisString, fs);
+    public BarAndLineChartData(List<String> XAxisString, float[][] fs, int[] colors) {
+        super(XAxisString, fs,colors);
         mYLeftAxisString = new ArrayList<>(5);
         mYRightAxisString = new ArrayList<>(5);
         initYAxisString();
@@ -46,9 +48,12 @@ public class BarAndLineChartData extends Data {
         float maxValues = Float.MIN_VALUE;
         if (getEntity() != null) {
             for (int i = 0; i < getEntity().size(); i++) {
-                if (getEntity().get(i).getValues() > maxValues) {
-                    maxValues = getEntity().get(i).getValues();
+                for (int j = 0; j < getEntity().get(i).size(); j++) {
+                    if (getEntity().get(i).get(j).getValues() > maxValues) {
+                        maxValues = getEntity().get(i).get(j).getValues();
+                    }
                 }
+
             }
             int increaseL = (int) Math.ceil(maxValues / (mYAxisCount - 1));
             int yValue = 0;

@@ -1,5 +1,7 @@
 package com.liushuai.mylibrary.data;
 
+import android.graphics.Color;
+
 import java.util.List;
 
 /**
@@ -20,5 +22,17 @@ public interface IData {
     List<List<IEntity>> getEntity();
 
     void setEntity(List<List<IEntity>> entity);
+
+    /**
+     * 获得颜色
+     *
+     * @return
+     */
+    int[] getColors();
+
+    /**
+     * 设置颜色
+     */
+    void setColors(int[] cs);
 
 }

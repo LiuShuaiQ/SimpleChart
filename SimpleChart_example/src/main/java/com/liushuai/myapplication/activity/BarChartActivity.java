@@ -1,5 +1,6 @@
 package com.liushuai.myapplication.activity;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.liushuai.myapplication.R;
@@ -40,9 +41,14 @@ public class BarChartActivity extends BaseActivity {
         xs.add("4月");
         xs.add("5月");
         xs.add("6月");
-        float[] fs1 = {40, 44, 24, 98, 76, 34};
+        float[][] fs1 = new float[2][];
+        fs1[0] = new float[]{40, 44, 24, 98, 76, 34};
+        fs1[1] = new float[]{32, 43, 65, 76, 87, 21};
 
-        BarAndLineChartData chartData = new BarAndLineChartData(xs, fs1);
+        int[] cs = {Color.parseColor("#ff0000"),
+                Color.parseColor("#0000ff")};
+
+        BarAndLineChartData chartData = new BarAndLineChartData(xs, fs1, cs);
         mBarChart.setData(chartData);
         mBarChart.invalidate();
     }
