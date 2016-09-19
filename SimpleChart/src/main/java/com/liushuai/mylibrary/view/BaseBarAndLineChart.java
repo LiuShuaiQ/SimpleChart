@@ -13,80 +13,107 @@ import com.liushuai.mylibrary.data.IData;
 import com.liushuai.mylibrary.utils.ChartCalUtils;
 
 /**
- * 柱状图和折线图的基类
+ * Base Class Of the BarChart and LineChart
+ * (柱状图和折线图的基类)
  * Created by LiuShuai on 2016/9/12.
  */
 public abstract class BaseBarAndLineChart extends BaseChart {
 
     /**
-     * 默认的宽和高
+     * default the chart width and height
+     * (默认的宽和高)
      */
     public static final int DEFAULT_WIDTH = 300;
     public static final int DEFAULT_HEIGHT = 300;
 
     /**
-     * y轴坐标的个数
+     * the number of y-axis
+     * (y轴坐标的个数)
      */
     protected int yCount;
     /**
-     * x轴坐标的个数
+     * the number of x-axis
+     * (x轴坐标的个数)
      */
     protected int xCount;
 
     /**
-     * x轴文字的大小
+     * the text size of the x-axis text
+     * (x轴文字的大小)
      */
     protected int mXTextSize;
     /**
-     * y轴文字的大小
+     * the text size of the y-axis text
+     * (y轴文字的大小)
      */
     protected int mYTextSize;
 
     /**
-     * 背景线的颜色
+     * the color of the background line
+     * (背景线的颜色)
      */
     protected int mBackLineColor;
 
     /**
-     * X轴是否显示
+     * x-axis enable
+     * (X轴是否显示)
      */
     protected boolean mXAxisEnable = true;
     /**
-     * Y轴是否显示
+     * y-axis enable
+     * (Y轴是否显示)
      */
     protected boolean mYAxisEnable = true;
 
     /**
-     * 坐标轴的颜色
+     * the color of axis
+     * (坐标轴的颜色)
      */
     protected int mAxisColor;
 
     /**
-     * 是否画背景线
+     * background line enable
+     * (是否画背景线)
      */
     protected boolean mBackLineEnable = true;
 
     /**
-     * 坐标轴文字的颜色
+     * rotate x-text enable
+     * (是否旋转x轴的文字)
+     */
+    private boolean mRotateXText = true;
+
+    /**
+     * the color of axis-text
+     * (坐标轴文字的颜色)
      */
     protected int mAxisTextColor;
 
     /**
-     * 字和线之间的间距
+     * the space between word and line
+     * (字和线之间的间距)
      */
     protected int textLineSpace = 5;
 
     /**
-     * 距离上方的间距,由字体大小决定
+     * the padding of top,depend on the the text size of axis
+     * (距离上方的间距,由字体大小决定)
      */
     protected float paddingTop = 20;
     /**
-     * 距离上方的间距,由字体大小决定
+     * the padding of bottom,depend on the the text size of axis
+     * (距离下方的间距,由字体大小决定)
      */
     protected float paddingBottom = 20;
-
+    /**
+     * the padding of left,depend on the the text size of axis
+     * (距离左方的间距,由字体大小决定)
+     */
     protected float paddingLeft = 20;
-
+    /**
+     * the padding of right,depend on the the text size of axis
+     * (距离右方的间距,由字体大小决定)
+     */
     protected float paddingRight = 20;
 
     protected Paint mAxisPaint;
@@ -111,6 +138,11 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         this(context, attrs, 0);
     }
 
+    /**
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     */
     @Override
     protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyIncreaseChartView, defStyleAttr, 0);
@@ -154,19 +186,20 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         mXAxisTextPaint.setTextSize(mXTextSize);
         mXAxisTextPaint.setStyle(Paint.Style.FILL);
 
+        //init the custom paint
         initPaint();
 
     }
 
     /**
-     * 初始化样式，放到xml中的样式
+     * init style in xml file
      *
      * @param array
      */
     protected abstract void initStyle(TypedArray array);
 
     /**
-     * 初始化画笔
+     * init paint
      */
     protected abstract void initPaint();
 
@@ -213,19 +246,17 @@ public abstract class BaseBarAndLineChart extends BaseChart {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        //计算两端的文字宽度
+        //calculate left and right axis text width   (计算两端的文字宽度)
         mLeftTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYLeftAxisString(), mYAxisTextPaint);
         mRightTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYRightAxisString(), mYAxisTextPaint);
         if (mChartData != null) {
-//            mFirstRects = new RectModel[mChartData.mFirstBarValues.length];
+            //before draw callback
             beforeDraw();
 
-            //画出y轴
-            //画出左边的y轴
-            //每个坐标相距的距离
+            //calculate the distance of the y-axis text     (y轴每个坐标相距的距离)
             float yItemHight = mHeight / (mChartData.getYLeftAxisString().size() - 1);
 
-            //画两个y轴的线
+            //draw y axis line  (画两个y轴的线)
             canvas.drawLine(mLeftTextWidth + textLineSpace, 0, mLeftTextWidth + textLineSpace, mHeight + paddingTop, mAxisPaint);
             canvas.drawLine(mWidth - mRightTextWidth - textLineSpace, 0, mWidth - mRightTextWidth - textLineSpace, mHeight + paddingTop, mAxisPaint);
 
@@ -233,30 +264,46 @@ public abstract class BaseBarAndLineChart extends BaseChart {
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float yItemAxis = mHeight;
             for (int i = 0; i < mChartData.getYLeftAxisString().size(); i++) {
-                //画出x轴平行的线
-                canvas.drawLine(mLeftTextWidth + textLineSpace, paddingTop + yItemAxis, mWidth - mRightTextWidth - textLineSpace, paddingTop + yItemAxis, mAxisPaint);
+                //draw the line of parallel to the x    (画出x轴平行的线)
+                canvas.drawLine(mLeftTextWidth + textLineSpace,
+                        paddingTop + yItemAxis,
+                        mWidth - mRightTextWidth - textLineSpace,
+                        paddingTop + yItemAxis, mAxisPaint);
+                //draw y-axis text
                 canvas.drawText(mChartData.getYLeftAxisString().get(i), 0, paddingTop + yItemAxis, mYAxisTextPaint);
                 canvas.drawText(mChartData.getYRightAxisString().get(i), mWidth - mRightTextWidth, paddingTop + yItemAxis, mYAxisTextPaint);
                 yItemAxis -= yItemHight;
             }
 
 
-            //每个坐标相距的距离
+            //the distance of the x-axis text    (x轴每个坐标相距的距离)
             float xItemL = (mWidth - mLeftTextWidth - mRightTextWidth) / (mChartData.getXAxisString().size() + 1);
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float xItemAxis = mLeftTextWidth + xItemL;
-            //获取文字的高度
-            Paint.FontMetrics fontMetrics = mAxisPaint.getFontMetrics();
-            float fontTotalHeight = fontMetrics.bottom - fontMetrics.top;
             for (int i = 0; i < mChartData.getXAxisString().size(); i++) {
-//                canvas.drawText(mChartData.getXAxisString().get(i), xItemAxis - mRectWidth / 2, mHeight + paddingTop + fontTotalHeight + textLineSpace, mXAxisTextPaint);
-//                mFirstRects[i] = new RectModel(xItemAxis - mRectWidth / 2,
-//                        paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.mFirstBarValues[i]
-//                                , Float.valueOf(mChartData.yLeftAxisString.get(0)),
-//                                Float.valueOf(mChartData.yLeftAxisString.get(mChartData.yLeftAxisString.size() - 1)), mHeight), xItemAxis + mRectWidth / 2, paddingTop + mHeight, mChartData.mFirstBarValues[i]);
-//                //画第一个柱子
-//                mFirstRects[i].draw(canvas, mFirstRectPaint);
+                //draw the text of x-axis , if mRotateXText is true ,the rotate will be retate
+                if (mRotateXText) {
+                    //draw x-axis text after canvas rotate
+                    canvas.save();
+                    canvas.rotate(-45,
+                            xItemAxis,
+                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint)
+                                    + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2));
+                    canvas.drawText(mChartData.getXAxisString().get(i),
+                            xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint) + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2),
+                            mXAxisTextPaint);
+                    canvas.restore();
+                } else {
+                    //draw x-axis text that canvas is not rotate
+                    canvas.drawText(mChartData.getXAxisString().get(i),
+                            xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint),
+                            mXAxisTextPaint);
+                }
+                //draw the chart callback
                 drawPerX(xItemAxis, xItemL, i, canvas);
+
                 xItemAxis += xItemL;
             }
 
@@ -290,5 +337,13 @@ public abstract class BaseBarAndLineChart extends BaseChart {
     public void setData(IData data) {
         if (data instanceof BarAndLineChartData)
             mChartData = (BarAndLineChartData) data;
+    }
+
+    public boolean isRotateXText() {
+        return mRotateXText;
+    }
+
+    public void setRotateXText(boolean rotateXText) {
+        mRotateXText = rotateXText;
     }
 }

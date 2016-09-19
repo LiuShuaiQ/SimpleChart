@@ -58,8 +58,6 @@ public class LineChart extends BaseBarAndLineChart {
 
     @Override
     protected void drawPerX(float xItemAxis, float xItemL, int i, Canvas canvas) {
-        //画x轴的数据
-        canvas.drawText(mChartData.getXAxisString().get(i), xItemAxis, mHeight + paddingTop + ChartCalUtils.getTextHeight(mAxisPaint) + 5, mXAxisTextPaint);
 
         for (int i1 = 0; i1 < mChartData.getValues().length; i1++) {
             //根据不同的图改变颜色

@@ -62,7 +62,7 @@ public class BarChart extends BaseBarAndLineChart {
 
     @Override
     protected void drawPerX(float xItemAxis, float xItemL, int i, Canvas canvas) {
-        canvas.drawText(mChartData.getXAxisString().get(i), xItemAxis - mBarWidth / 2, mHeight + paddingTop + ChartCalUtils.getTextHeight(mAxisPaint) + 5, mXAxisTextPaint);
+
         float xIndex = xItemAxis - (mBarWidth * (mChartData.getValues().length) / 2);
         for (int j = 0; j < mChartData.getValues().length; j++) {
             //多个柱状图时需要分颜色画

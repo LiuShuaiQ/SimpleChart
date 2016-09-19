@@ -48,6 +48,23 @@ public class ChartCalUtils {
     }
 
     /**
+     * 获取文字的宽度
+     *
+     * @param text
+     * @param paint
+     * @return
+     */
+    public static float getTextWidth(String text, Paint paint) {
+        float result = 0;
+        float[] ws = new float[text.length()];
+        paint.getTextWidths(text, ws);
+        for (float f : ws) {
+            result += f;
+        }
+        return result;
+    }
+
+    /**
      * 获取文字的高度
      *
      * @param paint

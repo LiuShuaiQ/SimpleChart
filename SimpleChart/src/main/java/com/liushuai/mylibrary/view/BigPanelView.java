@@ -148,7 +148,6 @@ public class BigPanelView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        p.setColor(mArcColor);
         canvas.drawArc(new RectF(mArcWidth, mArcWidth, mWidth - mArcWidth, mHeight - mArcWidth), 150, 240, false, mBackgroundCirclePaint);
         canvas.drawArc(new RectF(mArcWidth, mArcWidth, mWidth - mArcWidth, mHeight - mArcWidth), 180, mSelectPercent, false, mSelectCirclePaint);
 
