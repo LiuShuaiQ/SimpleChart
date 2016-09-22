@@ -48,8 +48,8 @@ public class BarChart extends BaseBarAndLineChart {
 
     @Override
     protected void initStyle(TypedArray a) {
-        mBarColor = a.getColor(R.styleable.MyIncreaseChartView_firstRectColor, Color.parseColor("#0000FF"));
-        mBarWidth = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_rectWidth, 20);
+        mBarColor = a.getColor(R.styleable.MyChartView_firstRectColor, Color.parseColor("#0000FF"));
+        mBarWidth = a.getDimensionPixelSize(R.styleable.MyChartView_rectWidth, 20);
     }
 
     @Override

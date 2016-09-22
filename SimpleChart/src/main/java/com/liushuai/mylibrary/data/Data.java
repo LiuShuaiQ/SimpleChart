@@ -19,18 +19,17 @@ public abstract class Data implements IData {
      */
     private List<List<IEntity>> mEntities;
 
-    private int[] mColors;
 
-    public Data(List<String> XAxisString, List<List<IEntity>> entities,int[] colors) {
+    public Data(List<String> XAxisString, List<List<IEntity>> entities) {
         mXAxisString = XAxisString;
         mEntities = entities;
-        mColors = colors;
+
     }
 
-    public Data(List<String> XAxisString, float[][] fs,int[] colors) {
+    public Data(List<String> XAxisString, float[][] fs) {
         mXAxisString = XAxisString;
         mEntities = toEntity(fs);
-        mColors = colors;
+
     }
 
     @Override
@@ -88,13 +87,5 @@ public abstract class Data implements IData {
         return entities;
     }
 
-    @Override
-    public int[] getColors() {
-        return mColors;
-    }
 
-    @Override
-    public void setColors(int[] colors) {
-        mColors = colors;
-    }
 }

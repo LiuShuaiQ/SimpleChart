@@ -20,13 +20,6 @@ import com.liushuai.mylibrary.utils.ChartCalUtils;
 public abstract class BaseBarAndLineChart extends BaseChart {
 
     /**
-     * default the chart width and height
-     * (默认的宽和高)
-     */
-    public static final int DEFAULT_WIDTH = 300;
-    public static final int DEFAULT_HEIGHT = 300;
-
-    /**
      * the number of y-axis
      * (y轴坐标的个数)
      */
@@ -127,7 +120,7 @@ public abstract class BaseBarAndLineChart extends BaseChart {
     protected BarAndLineChartData mChartData;
 
     public BaseBarAndLineChart(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public BaseBarAndLineChart(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -135,7 +128,7 @@ public abstract class BaseBarAndLineChart extends BaseChart {
     }
 
     public BaseBarAndLineChart(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     /**
@@ -145,16 +138,16 @@ public abstract class BaseBarAndLineChart extends BaseChart {
      */
     @Override
     protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyIncreaseChartView, defStyleAttr, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyChartView, defStyleAttr, 0);
 
-        mXTextSize = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_xTextSize, 20);
-        mYTextSize = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_yTextSize, 20);
-        mBackLineColor = a.getColor(R.styleable.MyIncreaseChartView_backLineColor, Color.GRAY);
-        mBackLineEnable = a.getBoolean(R.styleable.MyIncreaseChartView_backLineEnable, true);
-        mXAxisEnable = a.getBoolean(R.styleable.MyIncreaseChartView_xEnable, true);
-        mYAxisEnable = a.getBoolean(R.styleable.MyIncreaseChartView_yEnable, true);
-        mAxisColor = a.getColor(R.styleable.MyIncreaseChartView_axisColor, Color.BLACK);
-        mAxisTextColor = a.getColor(R.styleable.MyIncreaseChartView_axisTextColor, Color.BLACK);
+        mXTextSize = a.getDimensionPixelSize(R.styleable.MyChartView_xTextSize, 20);
+        mYTextSize = a.getDimensionPixelSize(R.styleable.MyChartView_yTextSize, 20);
+        mBackLineColor = a.getColor(R.styleable.MyChartView_backLineColor, Color.GRAY);
+        mBackLineEnable = a.getBoolean(R.styleable.MyChartView_backLineEnable, true);
+        mXAxisEnable = a.getBoolean(R.styleable.MyChartView_xEnable, true);
+        mYAxisEnable = a.getBoolean(R.styleable.MyChartView_yEnable, true);
+        mAxisColor = a.getColor(R.styleable.MyChartView_axisColor, Color.BLACK);
+        mAxisTextColor = a.getColor(R.styleable.MyChartView_axisTextColor, Color.BLACK);
 
         initStyle(a);
 
@@ -211,36 +204,6 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         float fontTotalHeight = ChartCalUtils.getTextHeight(mXAxisTextPaint);
 
         setMeasuredDimension(mWidth, mHeight + (int) paddingTop + (int) paddingBottom + (int) fontTotalHeight);
-    }
-
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-            result = DEFAULT_WIDTH;
-            if (specMode == MeasureSpec.AT_MOST)
-                result = Math.min(result, specSize);
-        }
-        return result;
-    }
-
-    private int measureHeight(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-            result = DEFAULT_HEIGHT;
-            if (specMode == MeasureSpec.AT_MOST)
-                result = Math.min(result, specSize);
-        }
-        return result;
     }
 
     @Override

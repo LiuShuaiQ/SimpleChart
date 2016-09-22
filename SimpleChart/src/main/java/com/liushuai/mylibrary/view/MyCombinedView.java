@@ -148,20 +148,20 @@ public class MyCombinedView extends View {
     public MyCombinedView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyIncreaseChartView, defStyleAttr, 0);
-        mFitstRectColor = a.getColor(R.styleable.MyIncreaseChartView_firstRectColor, Color.parseColor("#5FB1ED"));
-        mSecondRectColor = a.getColor(R.styleable.MyIncreaseChartView_secondRectColor, Color.parseColor("#00FF00"));
-        mLineColor = a.getColor(R.styleable.MyIncreaseChartView_lineColor, Color.parseColor("#0000FF"));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyChartView, defStyleAttr, 0);
+        mFitstRectColor = a.getColor(R.styleable.MyChartView_firstRectColor, Color.parseColor("#5FB1ED"));
+        mSecondRectColor = a.getColor(R.styleable.MyChartView_secondRectColor, Color.parseColor("#00FF00"));
+        mLineColor = a.getColor(R.styleable.MyChartView_lineColor, Color.parseColor("#0000FF"));
 
-        mRectWidth = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_rectWidth, 20);
-        mXTextSize = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_xTextSize, 20);
-        mYTextSize = a.getDimensionPixelSize(R.styleable.MyIncreaseChartView_yTextSize, 20);
-        mBackLineColor = a.getColor(R.styleable.MyIncreaseChartView_backLineColor, Color.GRAY);
-        mBackLineEnable = a.getBoolean(R.styleable.MyIncreaseChartView_backLineEnable, true);
-        mXAxisEnable = a.getBoolean(R.styleable.MyIncreaseChartView_xEnable, true);
-        mYAxisEnable = a.getBoolean(R.styleable.MyIncreaseChartView_yEnable, true);
-        mAxisColor = a.getColor(R.styleable.MyIncreaseChartView_axisColor, Color.BLACK);
-        mAxisTextColor = a.getColor(R.styleable.MyIncreaseChartView_axisTextColor, Color.BLACK);
+        mRectWidth = a.getDimensionPixelSize(R.styleable.MyChartView_rectWidth, 20);
+        mXTextSize = a.getDimensionPixelSize(R.styleable.MyChartView_xTextSize, 20);
+        mYTextSize = a.getDimensionPixelSize(R.styleable.MyChartView_yTextSize, 20);
+        mBackLineColor = a.getColor(R.styleable.MyChartView_backLineColor, Color.GRAY);
+        mBackLineEnable = a.getBoolean(R.styleable.MyChartView_backLineEnable, true);
+        mXAxisEnable = a.getBoolean(R.styleable.MyChartView_xEnable, true);
+        mYAxisEnable = a.getBoolean(R.styleable.MyChartView_yEnable, true);
+        mAxisColor = a.getColor(R.styleable.MyChartView_axisColor, Color.BLACK);
+        mAxisTextColor = a.getColor(R.styleable.MyChartView_axisTextColor, Color.BLACK);
 
         a.recycle();
 

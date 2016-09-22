@@ -1,7 +1,5 @@
 package com.liushuai.mylibrary.data;
 
-import android.graphics.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +24,19 @@ public class BarAndLineChartData extends Data {
      * Y轴坐标显示的个数，默认为5个
      */
     private int mYAxisCount = 5;
+    private int[] mColors;
 
     public BarAndLineChartData(List<String> XAxisString, List<List<IEntity>> entities, int[] colors) {
-        super(XAxisString, entities,colors);
+        super(XAxisString, entities);
+        mColors = colors;
         mYLeftAxisString = new ArrayList<>(5);
         mYRightAxisString = new ArrayList<>(5);
         initYAxisString();
     }
 
     public BarAndLineChartData(List<String> XAxisString, float[][] fs, int[] colors) {
-        super(XAxisString, fs,colors);
+        super(XAxisString, fs);
+        mColors = colors;
         mYLeftAxisString = new ArrayList<>(5);
         mYRightAxisString = new ArrayList<>(5);
         initYAxisString();
@@ -80,6 +81,16 @@ public class BarAndLineChartData extends Data {
 
     public void setYRightAxisString(List<String> YRightAxisString) {
         mYRightAxisString = YRightAxisString;
+    }
+
+    @Override
+    public int[] getColors() {
+        return mColors;
+    }
+
+    @Override
+    public void setColors(int[] colors) {
+        mColors = colors;
     }
 
 

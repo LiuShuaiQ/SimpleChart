@@ -10,6 +10,12 @@ import android.view.View;
  */
 public abstract class BaseChart extends View implements IChart {
 
+    /**
+     * default the chart width and height
+     * (默认的宽和高)
+     */
+    public static final int DEFAULT_WIDTH = 300;
+    public static final int DEFAULT_HEIGHT = 300;
     protected int mWidth;
     protected int mHeight;
 
@@ -25,6 +31,13 @@ public abstract class BaseChart extends View implements IChart {
         init(context, attrs, defStyleAttr);
     }
 
+    /**
+     * It will be invoke in the constructor
+     *
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     */
     protected abstract void init(Context context, AttributeSet attrs, int defStyleAttr);
 
     public BaseChart(Context context, AttributeSet attrs) {
@@ -40,4 +53,36 @@ public abstract class BaseChart extends View implements IChart {
     public int getChartHeight() {
         return mHeight;
     }
+
+
+    protected int measureWidth(int measureSpec) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else {
+            result = DEFAULT_WIDTH;
+            if (specMode == MeasureSpec.AT_MOST)
+                result = Math.min(result, specSize);
+        }
+        return result;
+    }
+
+    protected int measureHeight(int measureSpec) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else {
+            result = DEFAULT_HEIGHT;
+            if (specMode == MeasureSpec.AT_MOST)
+                result = Math.min(result, specSize);
+        }
+        return result;
+    }
+
 }

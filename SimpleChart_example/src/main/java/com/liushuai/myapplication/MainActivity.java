@@ -11,6 +11,7 @@ import com.liushuai.myapplication.activity.BaseActivity;
 import com.liushuai.myapplication.activity.BigPanelViewActivity;
 import com.liushuai.myapplication.activity.CombineChartActivity;
 import com.liushuai.myapplication.activity.LineChartActivity;
+import com.liushuai.myapplication.activity.PieChartActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -48,6 +49,14 @@ public class MainActivity extends BaseActivity {
      */
     public void lineChartClick(View view) {
         intentTO(LineChartActivity.class);
+    }
+
+    /**
+     * 扇形图
+     * @param view
+     */
+    public void pieChartClick(View view) {
+        intentTO(PieChartActivity.class);
     }
 
 

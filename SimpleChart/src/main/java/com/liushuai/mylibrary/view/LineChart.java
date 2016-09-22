@@ -38,7 +38,7 @@ public class LineChart extends BaseBarAndLineChart {
 
     @Override
     protected void initStyle(TypedArray array) {
-        mLineColor = array.getColor(R.styleable.MyIncreaseChartView_lineColor, Color.parseColor("#0000FF"));
+        mLineColor = array.getColor(R.styleable.MyChartView_lineColor, Color.parseColor("#0000FF"));
     }
 
     @Override

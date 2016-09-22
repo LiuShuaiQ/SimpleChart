@@ -11,12 +11,7 @@
         <attr name="pointerRadius" format="dimension"/>
         <attr name="android:textSize"/>
     </declare-styleable>
-
-    <declare-styleable name="MyTabIndicatorLayout">
-        <attr name="tabCount" format="integer"></attr>
-        <attr name="tabColor" format="color"></attr>
-    </declare-styleable>
-    <declare-styleable name="MyIncreaseChartView">
+    <declare-styleable name="MyChartView">
         <!--柱子颜色-->
         <attr name="rectColor" format="color"></attr>
         <!--柱子宽度-->
@@ -45,6 +40,16 @@
         <attr name="secondRectColor" format="color"></attr>
         <!--折线颜色-->
         <attr name="lineColor" format="color"></attr>
+        <!--标注的文字大小-->
+        <attr name="labelTextSize" format="dimension"></attr>
+        <!--标注的文字颜色-->
+        <attr name="labelTextColor" format="color"></attr>
+        <!--图表中间的文字内容-->
+        <attr name="centerText" format="string"></attr>
+        <!--图表中间文字的大小-->
+        <attr name="centerTextSize" format="dimension"></attr>
+        <!--图表中间文字的颜色-->
+        <attr name="centerTextColor" format="color"></attr>
     </declare-styleable>
 
 </resources>
