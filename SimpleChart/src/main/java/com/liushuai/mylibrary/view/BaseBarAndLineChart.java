@@ -53,10 +53,17 @@ public abstract class BaseBarAndLineChart extends BaseChart {
      */
     protected boolean mXAxisEnable = true;
     /**
-     * y-axis enable
-     * (Y轴是否显示)
+     * left y-axis enable
+     * (左边Y轴是否显示)
      */
-    protected boolean mYAxisEnable = true;
+    protected boolean mLeftYAxisEnable = true;
+
+    /**
+     * right y-axis enable
+     * (右边Y轴是否显示)
+     */
+    protected boolean mRightYAxisEnable = true;
+
 
     /**
      * the color of axis
@@ -145,7 +152,8 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         mBackLineColor = a.getColor(R.styleable.MyChartView_backLineColor, Color.GRAY);
         mBackLineEnable = a.getBoolean(R.styleable.MyChartView_backLineEnable, true);
         mXAxisEnable = a.getBoolean(R.styleable.MyChartView_xEnable, true);
-        mYAxisEnable = a.getBoolean(R.styleable.MyChartView_yEnable, true);
+        mLeftYAxisEnable = a.getBoolean(R.styleable.MyChartView_leftYEnable, true);
+        mRightYAxisEnable = a.getBoolean(R.styleable.MyChartView_rightYEnable, true);
         mAxisColor = a.getColor(R.styleable.MyChartView_axisColor, Color.BLACK);
         mAxisTextColor = a.getColor(R.styleable.MyChartView_axisTextColor, Color.BLACK);
 
@@ -154,34 +162,36 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         a.recycle();
 
         mAxisPaint = new Paint();
+        mBgLinePaint = new Paint();
+        mYAxisTextPaint = new Paint();
+        mXAxisTextPaint = new Paint();
+        setPaint();
+
+        //init the custom paint
+        initPaint();
+
+    }
+
+    private void setPaint() {
         mAxisPaint.setColor(mAxisColor);
         mAxisPaint.setStrokeWidth(2);
         mAxisPaint.setStyle(Paint.Style.FILL);
 
-
-        mBgLinePaint = new Paint();
         mBgLinePaint.setColor(mBackLineColor);
         mBgLinePaint.setStrokeWidth(2);
         mBgLinePaint.setStyle(Paint.Style.FILL);
 
-
-        mYAxisTextPaint = new Paint();
         mYAxisTextPaint.setColor(mAxisTextColor);
         mYAxisTextPaint.setStrokeWidth(5);
         mYAxisTextPaint.setTextSize(mYTextSize);
         mYAxisTextPaint.setAntiAlias(true);
         mYAxisTextPaint.setStyle(Paint.Style.FILL);
 
-        mXAxisTextPaint = new Paint();
         mXAxisTextPaint.setColor(mAxisTextColor);
         mXAxisTextPaint.setAntiAlias(true);
         mXAxisTextPaint.setStrokeWidth(5);
         mXAxisTextPaint.setTextSize(mXTextSize);
         mXAxisTextPaint.setStyle(Paint.Style.FILL);
-
-        //init the custom paint
-        initPaint();
-
     }
 
     /**
@@ -208,6 +218,7 @@ public abstract class BaseBarAndLineChart extends BaseChart {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        setPaint();
 
         //calculate left and right axis text width   (计算两端的文字宽度)
         mLeftTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYLeftAxisString(), mYAxisTextPaint);
@@ -220,21 +231,31 @@ public abstract class BaseBarAndLineChart extends BaseChart {
             float yItemHight = mHeight / (mChartData.getYLeftAxisString().size() - 1);
 
             //draw y axis line  (画两个y轴的线)
-            canvas.drawLine(mLeftTextWidth + textLineSpace, 0, mLeftTextWidth + textLineSpace, mHeight + paddingTop, mAxisPaint);
-            canvas.drawLine(mWidth - mRightTextWidth - textLineSpace, 0, mWidth - mRightTextWidth - textLineSpace, mHeight + paddingTop, mAxisPaint);
+            if (mLeftYAxisEnable) {
+                canvas.drawLine(mLeftTextWidth + textLineSpace, 0, mLeftTextWidth + textLineSpace, mHeight + paddingTop, mAxisPaint);
+            }
+            if (mRightYAxisEnable) {
+                canvas.drawLine(mWidth - mRightTextWidth - textLineSpace, 0, mWidth - mRightTextWidth - textLineSpace, mHeight + paddingTop, mAxisPaint);
+            }
 
 
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float yItemAxis = mHeight;
             for (int i = 0; i < mChartData.getYLeftAxisString().size(); i++) {
-                //draw the line of parallel to the x    (画出x轴平行的线)
-                canvas.drawLine(mLeftTextWidth + textLineSpace,
-                        paddingTop + yItemAxis,
-                        mWidth - mRightTextWidth - textLineSpace,
-                        paddingTop + yItemAxis, mAxisPaint);
+                if (mBackLineEnable) {
+                    //draw the line of parallel to the x    (画出x轴平行的线)
+                    canvas.drawLine(mLeftTextWidth + textLineSpace,
+                            paddingTop + yItemAxis,
+                            mWidth - mRightTextWidth - textLineSpace,
+                            paddingTop + yItemAxis, mBgLinePaint);
+                }
                 //draw y-axis text
-                canvas.drawText(mChartData.getYLeftAxisString().get(i), 0, paddingTop + yItemAxis, mYAxisTextPaint);
-                canvas.drawText(mChartData.getYRightAxisString().get(i), mWidth - mRightTextWidth, paddingTop + yItemAxis, mYAxisTextPaint);
+                if (mLeftYAxisEnable) {
+                    canvas.drawText(mChartData.getYLeftAxisString().get(i), 0, paddingTop + yItemAxis, mYAxisTextPaint);
+                }
+                if (mRightYAxisEnable) {
+                    canvas.drawText(mChartData.getYRightAxisString().get(i), mWidth - mRightTextWidth, paddingTop + yItemAxis, mYAxisTextPaint);
+                }
                 yItemAxis -= yItemHight;
             }
 
@@ -244,26 +265,29 @@ public abstract class BaseBarAndLineChart extends BaseChart {
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float xItemAxis = mLeftTextWidth + xItemL;
             for (int i = 0; i < mChartData.getXAxisString().size(); i++) {
-                //draw the text of x-axis , if mRotateXText is true ,the rotate will be retate
-                if (mRotateXText) {
-                    //draw x-axis text after canvas rotate
-                    canvas.save();
-                    canvas.rotate(-45,
-                            xItemAxis,
-                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint)
-                                    + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2));
-                    canvas.drawText(mChartData.getXAxisString().get(i),
-                            xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
-                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint) + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2),
-                            mXAxisTextPaint);
-                    canvas.restore();
-                } else {
-                    //draw x-axis text that canvas is not rotate
-                    canvas.drawText(mChartData.getXAxisString().get(i),
-                            xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
-                            mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint),
-                            mXAxisTextPaint);
+                if (mXAxisEnable) {
+                    //draw the text of x-axis , if mRotateXText is true ,the rotate will be retate
+                    if (mRotateXText) {
+                        //draw x-axis text after canvas rotate
+                        canvas.save();
+                        canvas.rotate(-45,
+                                xItemAxis,
+                                mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint)
+                                        + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2));
+                        canvas.drawText(mChartData.getXAxisString().get(i),
+                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                                mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint) + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2),
+                                mXAxisTextPaint);
+                        canvas.restore();
+                    } else {
+                        //draw x-axis text that canvas is not rotate
+                        canvas.drawText(mChartData.getXAxisString().get(i),
+                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                                mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint),
+                                mXAxisTextPaint);
+                    }
                 }
+
                 //draw the chart callback
                 drawPerX(xItemAxis, xItemL, i, canvas);
 
@@ -308,5 +332,85 @@ public abstract class BaseBarAndLineChart extends BaseChart {
 
     public void setRotateXText(boolean rotateXText) {
         mRotateXText = rotateXText;
+    }
+
+    public int getBackLineColor() {
+        return mBackLineColor;
+    }
+
+    public void setBackLineColor(int backLineColor) {
+        mBackLineColor = backLineColor;
+    }
+
+    public boolean isXAxisEnable() {
+        return mXAxisEnable;
+    }
+
+    public void setXAxisEnable(boolean XAxisEnable) {
+        mXAxisEnable = XAxisEnable;
+    }
+
+    public boolean isLeftYAxisEnable() {
+        return mLeftYAxisEnable;
+    }
+
+    public void setLeftYAxisEnable(boolean leftYAxisEnable) {
+        mLeftYAxisEnable = leftYAxisEnable;
+    }
+
+    public boolean isRightYAxisEnable() {
+        return mRightYAxisEnable;
+    }
+
+    public void setRightYAxisEnable(boolean rightYAxisEnable) {
+        mRightYAxisEnable = rightYAxisEnable;
+    }
+
+    public int getAxisColor() {
+        return mAxisColor;
+    }
+
+    public void setAxisColor(int axisColor) {
+        mAxisColor = axisColor;
+    }
+
+    public boolean isBackLineEnable() {
+        return mBackLineEnable;
+    }
+
+    public void setBackLineEnable(boolean backLineEnable) {
+        mBackLineEnable = backLineEnable;
+    }
+
+    public int getAxisTextColor() {
+        return mAxisTextColor;
+    }
+
+    public void setAxisTextColor(int axisTextColor) {
+        mAxisTextColor = axisTextColor;
+    }
+
+    public int getTextLineSpace() {
+        return textLineSpace;
+    }
+
+    public void setTextLineSpace(int textLineSpace) {
+        this.textLineSpace = textLineSpace;
+    }
+
+    public int getYTextSize() {
+        return mYTextSize;
+    }
+
+    public void setYTextSize(int YTextSize) {
+        mYTextSize = YTextSize;
+    }
+
+    public int getXTextSize() {
+        return mXTextSize;
+    }
+
+    public void setXTextSize(int XTextSize) {
+        mXTextSize = XTextSize;
     }
 }

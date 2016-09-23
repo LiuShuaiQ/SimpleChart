@@ -26,6 +26,10 @@
         <attr name="xEnable" format="boolean"></attr>
         <!--Y轴是否显示-->
         <attr name="yEnable" format="boolean"></attr>
+        <!--左边Y轴是否显示-->
+        <attr name="leftYEnable" format="boolean"></attr>
+        <!--右边Y轴是否显示-->
+        <attr name="rightYEnable" format="boolean"></attr>
         <!--坐标轴的颜色-->
         <attr name="axisColor" format="color"></attr>
         <!--背景线是否显示-->

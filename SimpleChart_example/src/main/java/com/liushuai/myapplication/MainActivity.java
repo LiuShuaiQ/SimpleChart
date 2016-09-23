@@ -2,14 +2,12 @@ package com.liushuai.myapplication;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
+import com.liushuai.myapplication.activity.BarAndLineChartActivity;
 import com.liushuai.myapplication.activity.BarChartActivity;
 import com.liushuai.myapplication.activity.BaseActivity;
 import com.liushuai.myapplication.activity.BigPanelViewActivity;
-import com.liushuai.myapplication.activity.CombineChartActivity;
 import com.liushuai.myapplication.activity.LineChartActivity;
 import com.liushuai.myapplication.activity.PieChartActivity;
 
@@ -34,17 +32,10 @@ public class MainActivity extends BaseActivity {
         intentTO(BigPanelViewActivity.class);
     }
 
-    /**
-     * 复合视图
-     *
-     * @param v
-     */
-    public void combineChartClick(View v) {
-        intentTO(CombineChartActivity.class);
-    }
 
     /**
      * 折线图
+     *
      * @param view
      */
     public void lineChartClick(View view) {
@@ -53,12 +44,21 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 扇形图
+     *
      * @param view
      */
     public void pieChartClick(View view) {
         intentTO(PieChartActivity.class);
     }
 
+    /**
+     * the combined chart of bae and line
+     *
+     * @param view
+     */
+    public void barAndLineChartClick(View view) {
+        intentTO(BarAndLineChartActivity.class);
+    }
 
     private void intentTO(Class<?> cls) {
         Intent i = new Intent(this, cls);

@@ -1,6 +1,5 @@
 package com.liushuai.mylibrary.view;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;

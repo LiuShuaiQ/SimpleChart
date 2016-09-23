@@ -45,12 +45,16 @@ public class LineChartActivity extends BaseActivity {
         fs[0] = new float[]{40, 44, 24, 98, 76, 34};
         fs[1] = new float[]{32, 43, 65, 76, 87, 21};
 
-        int[] cs = {Color.parseColor("#ff0000"),
-                Color.parseColor("#0000ff")};
+        int[] cs = {Color.parseColor("#3f69c3"),
+                Color.parseColor("#3fb88c")};
 
 
         BarAndLineChartData chartData = new BarAndLineChartData(xs, fs, cs);
         mLineChart.setData(chartData);
+        mLineChart.setRotateXText(true);
+        mLineChart.setBackLineColor(Color.parseColor("#a0a0a0"));
+        mLineChart.setAxisColor(Color.parseColor("#a0a0a0"));
+        mLineChart.setRightYAxisEnable(false);
         mLineChart.invalidate();
     }
 }

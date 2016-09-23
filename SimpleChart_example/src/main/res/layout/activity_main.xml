@@ -28,13 +28,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="combineChartClick"
-        android:text="CombineChart"
-        />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="lineChartClick"
         android:text="LineChart"
         />
@@ -44,6 +37,13 @@
         android:layout_height="wrap_content"
         android:onClick="pieChartClick"
         android:text="PieChart"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="barAndLineChartClick"
+        android:text="BarAndLineChart"
         />
 
 
