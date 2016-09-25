@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".activity.BarAndLineChartActivity">
         </activity>
+        <activity android:name=".activity.IncreaseChartActivity">
+        </activity>
     </application>
 
 </manifest>

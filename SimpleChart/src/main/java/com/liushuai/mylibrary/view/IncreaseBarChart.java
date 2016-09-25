@@ -59,36 +59,17 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
         mBarPaint.setStyle(Paint.Style.FILL);
     }
 
+    private int preY = 0;
+
     @Override
     protected void drawPerX(float xItemAxis, float xItemL, int i, Canvas canvas) {
 
-        mChartData.setYAxisTextSetter(new BarAndLineChartData.YAxisTextSetter() {
-            @Override
-            public String setLeftYAxisText(int yValue) {
-                return String.valueOf(yValue);
-            }
-
-            @Override
-            public String setRightYAxisText(int yValue) {
-                return String.valueOf(yValue);
-            }
-
-            @Override
-            public int setYValues(int i, int yValue) {
-                return yValue+calValue(i);
-            }
-
-            private int calValue(int i) {
-                int result = 0;
-                for (int j = 0; j < i; j++) {
-                    result += mChartData.getValues()[0][i];
-                }
-                return result;
-            }
-        });
 
         float xIndex = xItemAxis - (mBarWidth * (mChartData.getValues().length) / 2);
         float currY = paddingTop + mHeight;
+//        if (preY != 0) {
+//            currY -= preY;
+//        }
         for (int j = 0; j < mChartData.getValues().length; j++) {
             //多个柱状图时需要分颜色画
             if (j < mChartData.getValues().length) {
@@ -99,10 +80,12 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
                     paddingTop + mHeight - ChartCalUtils.transValueToHeight(mChartData.getValues()[j][i], Float.valueOf(mChartData.getYLeftAxisString().get(0)),
                             Float.valueOf(mChartData.getYLeftAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight),
                     xIndex + mBarWidth,
-                    paddingTop + mHeight,
+                    currY,
                     mChartData.getValues()[j][i]);
             mRectModels[j][i].draw(canvas, mBarPaint);
 
+            preY += ChartCalUtils.transValueToHeight(mChartData.getValues()[j][i], Float.valueOf(mChartData.getYLeftAxisString().get(0)),
+                    Float.valueOf(mChartData.getYLeftAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight);
             xIndex += mBarWidth;
         }
     }
@@ -116,4 +99,5 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
             }
         }
     }
+
 }

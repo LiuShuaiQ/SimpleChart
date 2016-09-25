@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.liushuai.myapplication.R;
 import com.liushuai.mylibrary.data.BarAndLineChartData;
+import com.liushuai.mylibrary.formatter.PuppetAxisFormatter;
 import com.liushuai.mylibrary.view.LineChart;
 
 import java.util.ArrayList;
@@ -35,12 +36,12 @@ public class LineChartActivity extends BaseActivity {
     @Override
     public void afterSetView() {
         List<String> xs = new ArrayList<>();
-        xs.add("1月");
-        xs.add("2月");
-        xs.add("3月");
-        xs.add("4月");
-        xs.add("5月");
-        xs.add("6月");
+        xs.add("1");
+        xs.add("2");
+        xs.add("3");
+        xs.add("4");
+        xs.add("5");
+        xs.add("6");
         float[][] fs = new float[2][];
         fs[0] = new float[]{40, 44, 24, 98, 76, 34};
         fs[1] = new float[]{32, 43, 65, 76, 87, 21};
@@ -51,10 +52,22 @@ public class LineChartActivity extends BaseActivity {
 
         BarAndLineChartData chartData = new BarAndLineChartData(xs, fs, cs);
         mLineChart.setData(chartData);
-        mLineChart.setRotateXText(true);
+        mLineChart.setRotateXText(false);
         mLineChart.setBackLineColor(Color.parseColor("#a0a0a0"));
         mLineChart.setAxisColor(Color.parseColor("#a0a0a0"));
         mLineChart.setRightYAxisEnable(false);
+        mLineChart.setYLeftValueAxisFormatter(new PuppetAxisFormatter() {
+            @Override
+            public String format(String formatString) {
+                return formatString+"%";
+            }
+        });
+        mLineChart.setXValueAxisFormatter(new PuppetAxisFormatter() {
+            @Override
+            public String format(String formatString) {
+                return formatString+"月";
+            }
+        });
         mLineChart.invalidate();
     }
 }

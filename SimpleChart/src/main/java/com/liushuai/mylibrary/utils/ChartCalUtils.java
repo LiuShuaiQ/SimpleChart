@@ -2,6 +2,9 @@ package com.liushuai.mylibrary.utils;
 
 import android.graphics.Paint;
 
+import com.liushuai.mylibrary.formatter.AxisFormatter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,24 +24,43 @@ public class ChartCalUtils {
 
     /**
      * 计算几个文字的最大宽度
-     *
      * @param strings
      * @param paint
      * @return
      */
-    public static float getMaxTextWidth(List<String> strings, Paint paint) {
+    public static float getMaxTextWidth(List<String> strings, Paint paint){
+        return  getMaxTextWidth(strings,paint,null);
+    }
+
+    /**
+     * 计算几个文字的最大宽度
+     *
+     * @param strings
+     * @param paint
+     * @param axisFormatter
+     * @return
+     */
+    public static float getMaxTextWidth(List<String> strings, Paint paint, AxisFormatter axisFormatter) {
+        List<String> strings1 = new ArrayList<>(strings.size());
+        if (axisFormatter != null){
+            for (int i=0;i<strings.size();i++){
+                strings1.add(i, axisFormatter.format(strings.get(i)));
+            }
+        }else {
+            strings1 = strings;
+        }
         float sumTextWidth = 0;
-        if (strings != null && strings.size() > 0) {
+        if (strings1 != null && strings1.size() > 0) {
             int yMaxLength = 0;
             int yMaxIndex = 0;
-            for (int i = 0; i < strings.size(); i++) {
-                if (strings.get(i).length() > yMaxLength) {
+            for (int i = 0; i < strings1.size(); i++) {
+                if (strings1.get(i).length() > yMaxLength) {
                     yMaxIndex = i;
-                    yMaxLength = strings.get(i).length();
+                    yMaxLength = strings1.get(i).length();
                 }
             }
-            float[] yWidthFloats = new float[strings.get(yMaxIndex).length()];
-            paint.getTextWidths(strings.get(yMaxIndex), 0, yMaxLength, yWidthFloats);
+            float[] yWidthFloats = new float[strings1.get(yMaxIndex).length()];
+            paint.getTextWidths(strings1.get(yMaxIndex), 0, yMaxLength, yWidthFloats);
             for (float f : yWidthFloats) {
                 sumTextWidth += f;
             }
@@ -49,15 +71,32 @@ public class ChartCalUtils {
 
     /**
      * 获取文字的宽度
-     *
      * @param text
      * @param paint
      * @return
      */
-    public static float getTextWidth(String text, Paint paint) {
+    public static float getTextWidth(String text, Paint paint){
+        return getTextWidth(text,paint,null);
+    }
+
+    /**
+     * 获取文字的宽度
+     *
+     * @param text
+     * @param paint
+     * @param axisFormatter
+     * @return
+     */
+    public static float getTextWidth(String text, Paint paint, AxisFormatter axisFormatter) {
+        String text1;
+        if (axisFormatter !=null){
+            text1 = axisFormatter.format(text);
+        }else {
+            text1 = text;
+        }
         float result = 0;
-        float[] ws = new float[text.length()];
-        paint.getTextWidths(text, ws);
+        float[] ws = new float[text1.length()];
+        paint.getTextWidths(text1, ws);
         for (float f : ws) {
             result += f;
         }

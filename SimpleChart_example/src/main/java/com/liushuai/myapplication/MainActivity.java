@@ -8,6 +8,7 @@ import com.liushuai.myapplication.activity.BarAndLineChartActivity;
 import com.liushuai.myapplication.activity.BarChartActivity;
 import com.liushuai.myapplication.activity.BaseActivity;
 import com.liushuai.myapplication.activity.BigPanelViewActivity;
+import com.liushuai.myapplication.activity.IncreaseChartActivity;
 import com.liushuai.myapplication.activity.LineChartActivity;
 import com.liushuai.myapplication.activity.PieChartActivity;
 
@@ -58,6 +59,15 @@ public class MainActivity extends BaseActivity {
      */
     public void barAndLineChartClick(View view) {
         intentTO(BarAndLineChartActivity.class);
+    }
+
+    /**
+     * increase chart
+     *
+     * @param view
+     */
+    public void increaseChart(View view) {
+        intentTO(IncreaseChartActivity.class);
     }
 
     private void intentTO(Class<?> cls) {

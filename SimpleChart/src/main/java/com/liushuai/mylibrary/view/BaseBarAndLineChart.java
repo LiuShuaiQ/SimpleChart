@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import com.liushuai.mylibrary.R;
 import com.liushuai.mylibrary.data.BarAndLineChartData;
 import com.liushuai.mylibrary.data.IData;
+import com.liushuai.mylibrary.formatter.AxisFormatter;
 import com.liushuai.mylibrary.utils.ChartCalUtils;
 
 /**
@@ -81,7 +82,7 @@ public abstract class BaseBarAndLineChart extends BaseChart {
      * rotate x-text enable
      * (是否旋转x轴的文字)
      */
-    private boolean mRotateXText = true;
+    private boolean mRotateXText = false;
 
     /**
      * the color of axis-text
@@ -123,6 +124,10 @@ public abstract class BaseBarAndLineChart extends BaseChart {
 
     protected float mLeftTextWidth;
     protected float mRightTextWidth;
+
+    private AxisFormatter mYLeftValueAxisFormatter;
+    private AxisFormatter mYRightValueAxisFormatter;
+    private AxisFormatter mXValueAxisFormatter;
 
     protected BarAndLineChartData mChartData;
 
@@ -221,8 +226,8 @@ public abstract class BaseBarAndLineChart extends BaseChart {
         setPaint();
 
         //calculate left and right axis text width   (计算两端的文字宽度)
-        mLeftTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYLeftAxisString(), mYAxisTextPaint);
-        mRightTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYRightAxisString(), mYAxisTextPaint);
+        mLeftTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYLeftAxisString(), mYAxisTextPaint, mYLeftValueAxisFormatter);
+        mRightTextWidth = ChartCalUtils.getMaxTextWidth(mChartData.getYRightAxisString(), mYAxisTextPaint, mYRightValueAxisFormatter);
         if (mChartData != null) {
             //before draw callback
             beforeDraw();
@@ -241,7 +246,17 @@ public abstract class BaseBarAndLineChart extends BaseChart {
 
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float yItemAxis = mHeight;
+            String yLeftText;
+            String yRightText;
             for (int i = 0; i < mChartData.getYLeftAxisString().size(); i++) {
+                yLeftText = mChartData.getYLeftAxisString().get(i);
+                yRightText = mChartData.getYLeftAxisString().get(i);
+                if (mYLeftValueAxisFormatter != null) {
+                    yLeftText = mYLeftValueAxisFormatter.format(yLeftText);
+                }
+                if (mYRightValueAxisFormatter != null){
+                    yRightText = mYRightValueAxisFormatter.format(yRightText);
+                }
                 if (mBackLineEnable) {
                     //draw the line of parallel to the x    (画出x轴平行的线)
                     canvas.drawLine(mLeftTextWidth + textLineSpace,
@@ -251,10 +266,10 @@ public abstract class BaseBarAndLineChart extends BaseChart {
                 }
                 //draw y-axis text
                 if (mLeftYAxisEnable) {
-                    canvas.drawText(mChartData.getYLeftAxisString().get(i), 0, paddingTop + yItemAxis, mYAxisTextPaint);
+                    canvas.drawText(yLeftText, 0, paddingTop + yItemAxis, mYAxisTextPaint);
                 }
                 if (mRightYAxisEnable) {
-                    canvas.drawText(mChartData.getYRightAxisString().get(i), mWidth - mRightTextWidth, paddingTop + yItemAxis, mYAxisTextPaint);
+                    canvas.drawText(yRightText, mWidth - mRightTextWidth, paddingTop + yItemAxis, mYAxisTextPaint);
                 }
                 yItemAxis -= yItemHight;
             }
@@ -264,8 +279,13 @@ public abstract class BaseBarAndLineChart extends BaseChart {
             float xItemL = (mWidth - mLeftTextWidth - mRightTextWidth) / (mChartData.getXAxisString().size() + 1);
             mAxisPaint.setTextAlign(Paint.Align.CENTER);
             float xItemAxis = mLeftTextWidth + xItemL;
+            String xValue;
             for (int i = 0; i < mChartData.getXAxisString().size(); i++) {
                 if (mXAxisEnable) {
+                    xValue = mChartData.getXAxisString().get(i);
+                    if (mXValueAxisFormatter != null) {
+                        xValue = mXValueAxisFormatter.format(xValue);
+                    }
                     //draw the text of x-axis , if mRotateXText is true ,the rotate will be retate
                     if (mRotateXText) {
                         //draw x-axis text after canvas rotate
@@ -273,16 +293,16 @@ public abstract class BaseBarAndLineChart extends BaseChart {
                         canvas.rotate(-45,
                                 xItemAxis,
                                 mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint)
-                                        + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2));
-                        canvas.drawText(mChartData.getXAxisString().get(i),
-                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                                        + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint, mXValueAxisFormatter) / 2));
+                        canvas.drawText(xValue,
+                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint, mXValueAxisFormatter) / 2,
                                 mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint) + (float) Math.sqrt(ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2),
                                 mXAxisTextPaint);
                         canvas.restore();
                     } else {
                         //draw x-axis text that canvas is not rotate
-                        canvas.drawText(mChartData.getXAxisString().get(i),
-                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint) / 2,
+                        canvas.drawText(xValue,
+                                xItemAxis - ChartCalUtils.getTextWidth(mChartData.getXAxisString().get(i), mAxisPaint, mXValueAxisFormatter) / 2,
                                 mHeight + paddingTop + textLineSpace + ChartCalUtils.getTextHeight(mAxisPaint),
                                 mXAxisTextPaint);
                     }
@@ -412,5 +432,29 @@ public abstract class BaseBarAndLineChart extends BaseChart {
 
     public void setXTextSize(int XTextSize) {
         mXTextSize = XTextSize;
+    }
+
+    public AxisFormatter getYLeftValueAxisFormatter() {
+        return mYLeftValueAxisFormatter;
+    }
+
+    public void setYLeftValueAxisFormatter(AxisFormatter YLeftValueAxisFormatter) {
+        mYLeftValueAxisFormatter = YLeftValueAxisFormatter;
+    }
+
+    public AxisFormatter getYRightValueAxisFormatter() {
+        return mYRightValueAxisFormatter;
+    }
+
+    public void setYRightValueAxisFormatter(AxisFormatter YRightValueAxisFormatter) {
+        mYRightValueAxisFormatter = YRightValueAxisFormatter;
+    }
+
+    public AxisFormatter getXValueAxisFormatter() {
+        return mXValueAxisFormatter;
+    }
+
+    public void setXValueAxisFormatter(AxisFormatter XValueAxisFormatter) {
+        mXValueAxisFormatter = XValueAxisFormatter;
     }
 }

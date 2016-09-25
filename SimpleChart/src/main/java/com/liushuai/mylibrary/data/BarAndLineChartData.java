@@ -20,13 +20,13 @@ public class BarAndLineChartData extends Data {
      */
     private List<String> mYRightAxisString;
 
+//    private ValueFormatter mValueFormatter;
+
     /**
      * Y轴坐标显示的个数，默认为5个
      */
     private int mYAxisCount = 5;
     private int[] mColors;
-
-    private YAxisTextSetter mYAxisTextSetter;
 
     public BarAndLineChartData(List<String> XAxisString, List<List<IEntity>> entities, int[] colors) {
         super(XAxisString, entities);
@@ -45,7 +45,9 @@ public class BarAndLineChartData extends Data {
     }
 
     /**
-     * 初始化Y轴的数据
+     * 初始化Y轴的数据<br/>
+     * <p>
+     * 调用完这个之后你应该调用更新函数：refreshYText()
      */
     private void initYAxisString() {
         float maxValues = Float.MIN_VALUE;
@@ -61,18 +63,25 @@ public class BarAndLineChartData extends Data {
             int increaseL = (int) Math.ceil(maxValues / (mYAxisCount - 1));
             int yValue = 0;
             for (int i = 0; i < mYAxisCount; i++) {
-                if (mYAxisTextSetter != null) {
-                    yValue = mYAxisTextSetter.setYValues(i, yValue);
-                    mYLeftAxisString.add(mYAxisTextSetter.setLeftYAxisText(yValue));
-                    mYRightAxisString.add(mYAxisTextSetter.setRightYAxisText(yValue));
-                } else {
+//                if (mYAxisTextSetter != null) {
+//                    yValue = mYAxisTextSetter.setYValues(i, yValue);
+//                    mYLeftAxisString.add(mYAxisTextSetter.setLeftYAxisText(yValue));
+//                    mYRightAxisString.add(mYAxisTextSetter.setRightYAxisText(yValue));
+//                } else {
                     mYLeftAxisString.add(String.valueOf(yValue));
                     mYRightAxisString.add(String.valueOf(yValue));
-                }
+//                }
 
                 yValue += increaseL;
             }
         }
+    }
+
+    /**
+     * 更新Y轴的数据
+     */
+    public void refreshYText() {
+        initYAxisString();
     }
 
 
@@ -102,23 +111,6 @@ public class BarAndLineChartData extends Data {
         mColors = colors;
     }
 
-    public YAxisTextSetter getYAxisTextSetter() {
-        return mYAxisTextSetter;
-    }
 
-    public void setYAxisTextSetter(YAxisTextSetter YAxisTextSetter) {
-        mYAxisTextSetter = YAxisTextSetter;
-    }
-
-    /**
-     * Y轴文字设置器
-     */
-    public interface YAxisTextSetter {
-        String setLeftYAxisText(int yValue);
-
-        String setRightYAxisText(int yValue);
-
-        int setYValues(int i, int yValue);
-    }
 }
 
