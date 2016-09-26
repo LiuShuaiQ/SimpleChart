@@ -11,5 +11,5 @@ public interface ValueFormatter {
      * @param formatString
      * @return
      */
-    String format(int index,float formatString);
+    float format(int index,float formatString);
 }

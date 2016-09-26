@@ -1,5 +1,7 @@
 package com.liushuai.mylibrary.data;
 
+import com.liushuai.mylibrary.formatter.ValueFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,17 @@ public class BarAndLineChartData extends Data {
      * Y轴坐标显示的个数，默认为5个
      */
     private int mYAxisCount = 5;
+    /**
+     * Y轴中值的格式化器
+     */
+    private ValueFormatter mYLeftValueFormatter;
+    private ValueFormatter mYRightValueFormatter;
+
+    /**
+     * Y轴最大值的过滤器
+     */
+    private ValueFormatter mYMaxValueFormatter;
+
     private int[] mColors;
 
     public BarAndLineChartData(List<String> XAxisString, List<List<IEntity>> entities, int[] colors) {
@@ -52,25 +65,37 @@ public class BarAndLineChartData extends Data {
     private void initYAxisString() {
         float maxValues = Float.MIN_VALUE;
         if (getEntity() != null) {
-            for (int i = 0; i < getEntity().size(); i++) {
-                for (int j = 0; j < getEntity().get(i).size(); j++) {
-                    if (getEntity().get(i).get(j).getValues() > maxValues) {
-                        maxValues = getEntity().get(i).get(j).getValues();
-                    }
-                }
 
+            if (mYMaxValueFormatter != null) {
+                maxValues = mYMaxValueFormatter.format(0, maxValues);
+            }else{
+                for (int i = 0; i < getEntity().size(); i++) {
+                    for (int j = 0; j < getEntity().get(i).size(); j++) {
+                        if (getEntity().get(i).get(j).getValues() > maxValues) {
+                            maxValues = getEntity().get(i).get(j).getValues();
+                        }
+                    }
+
+                }
             }
             int increaseL = (int) Math.ceil(maxValues / (mYAxisCount - 1));
             int yValue = 0;
+            int yLeftValue = 0, yRightValue = 0;
             for (int i = 0; i < mYAxisCount; i++) {
-//                if (mYAxisTextSetter != null) {
-//                    yValue = mYAxisTextSetter.setYValues(i, yValue);
-//                    mYLeftAxisString.add(mYAxisTextSetter.setLeftYAxisText(yValue));
-//                    mYRightAxisString.add(mYAxisTextSetter.setRightYAxisText(yValue));
-//                } else {
-                    mYLeftAxisString.add(String.valueOf(yValue));
-                    mYRightAxisString.add(String.valueOf(yValue));
-//                }
+
+                if (mYLeftValueFormatter != null) {
+                    yLeftValue = (int) mYLeftValueFormatter.format(i, yValue);
+                } else {
+                    yLeftValue = yValue;
+                }
+                if (mYRightValueFormatter != null) {
+                    yRightValue = (int) mYRightValueFormatter.format(i, yValue);
+                } else {
+                    yRightValue = yValue;
+                }
+
+                mYLeftAxisString.add(String.valueOf(yLeftValue));
+                mYRightAxisString.add(String.valueOf(yRightValue));
 
                 yValue += increaseL;
             }
@@ -111,6 +136,28 @@ public class BarAndLineChartData extends Data {
         mColors = colors;
     }
 
+    public ValueFormatter getYLeftValueFormatter() {
+        return mYLeftValueFormatter;
+    }
 
+    public void setYLeftValueFormatter(ValueFormatter YLeftValueFormatter) {
+        mYLeftValueFormatter = YLeftValueFormatter;
+    }
+
+    public ValueFormatter getYRightValueFormatter() {
+        return mYRightValueFormatter;
+    }
+
+    public void setYRightValueFormatter(ValueFormatter YRightValueFormatter) {
+        mYRightValueFormatter = YRightValueFormatter;
+    }
+
+    public ValueFormatter getYMaxValueFormatter() {
+        return mYMaxValueFormatter;
+    }
+
+    public void setYMaxValueFormatter(ValueFormatter YMaxValueFormatter) {
+        mYMaxValueFormatter = YMaxValueFormatter;
+    }
 }
 
