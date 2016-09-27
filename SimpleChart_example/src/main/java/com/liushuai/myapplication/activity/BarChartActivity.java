@@ -50,7 +50,7 @@ public class BarChartActivity extends BaseActivity {
 
         BarAndLineChartData chartData = new BarAndLineChartData(xs, fs1, cs);
         mBarChart.setData(chartData);
-        mBarChart.setRotateXText(false);
+        mBarChart.setRotateXText(true);
         mBarChart.setBackLineColor(Color.parseColor("#a0a0a0"));
         mBarChart.setAxisColor(Color.parseColor("#a0a0a0"));
         mBarChart.invalidate();

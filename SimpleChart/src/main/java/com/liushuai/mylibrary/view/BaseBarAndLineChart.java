@@ -14,7 +14,7 @@ import com.liushuai.mylibrary.formatter.AxisFormatter;
 import com.liushuai.mylibrary.utils.ChartCalUtils;
 
 /**
- * Base Class Of the BarChart and LineChart
+ * Base Class Of the BarChart and LineChart<br/>
  * (柱状图和折线图的基类)
  * Created by LiuShuai on 2016/9/12.
  */
@@ -254,7 +254,7 @@ public abstract class BaseBarAndLineChart extends BaseChart {
                 if (mYLeftValueAxisFormatter != null) {
                     yLeftText = mYLeftValueAxisFormatter.format(yLeftText);
                 }
-                if (mYRightValueAxisFormatter != null){
+                if (mYRightValueAxisFormatter != null) {
                     yRightText = mYRightValueAxisFormatter.format(yRightText);
                 }
                 if (mBackLineEnable) {

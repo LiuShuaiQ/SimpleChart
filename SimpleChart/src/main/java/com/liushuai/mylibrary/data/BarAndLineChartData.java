@@ -22,7 +22,6 @@ public class BarAndLineChartData extends Data {
      */
     private List<String> mYRightAxisString;
 
-//    private ValueFormatter mValueFormatter;
 
     /**
      * Y轴坐标显示的个数，默认为5个
@@ -63,12 +62,14 @@ public class BarAndLineChartData extends Data {
      * 调用完这个之后你应该调用更新函数：refreshYText()
      */
     private void initYAxisString() {
+        mYLeftAxisString.clear();
+        mYRightAxisString.clear();
         float maxValues = Float.MIN_VALUE;
         if (getEntity() != null) {
 
             if (mYMaxValueFormatter != null) {
                 maxValues = mYMaxValueFormatter.format(0, maxValues);
-            }else{
+            } else {
                 for (int i = 0; i < getEntity().size(); i++) {
                     for (int j = 0; j < getEntity().get(i).size(); j++) {
                         if (getEntity().get(i).get(j).getValues() > maxValues) {
@@ -158,6 +159,14 @@ public class BarAndLineChartData extends Data {
 
     public void setYMaxValueFormatter(ValueFormatter YMaxValueFormatter) {
         mYMaxValueFormatter = YMaxValueFormatter;
+    }
+
+    public int getYAxisCount() {
+        return mYAxisCount;
+    }
+
+    public void setYAxisCount(int YAxisCount) {
+        mYAxisCount = YAxisCount;
     }
 }
 

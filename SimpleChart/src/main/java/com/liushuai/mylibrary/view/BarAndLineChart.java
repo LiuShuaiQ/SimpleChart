@@ -17,7 +17,6 @@ import com.liushuai.mylibrary.utils.ChartCalUtils;
  * <p>
  * Created by LiuShuai on 2016/9/23.
  */
-
 public class BarAndLineChart extends BaseBarAndLineChart {
     /**
      * the color of bar
