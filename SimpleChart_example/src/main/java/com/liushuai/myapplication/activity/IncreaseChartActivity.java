@@ -53,6 +53,9 @@ public class IncreaseChartActivity extends BaseActivity {
                 Color.parseColor("#3fb88c")};
 
         BarAndLineChartData chartData = new BarAndLineChartData(xs, fs1, cs);
+        //设置Y轴的个数
+        chartData.setYAxisCount(12);
+        chartData.refreshYText();
         mIncreaseBarChart.setData(chartData);
         mIncreaseBarChart.setRotateXText(false);
         mIncreaseBarChart.setBackLineColor(Color.parseColor("#a0a0a0"));
@@ -63,6 +66,8 @@ public class IncreaseChartActivity extends BaseActivity {
                 return formatString + "月";
             }
         });
+
+
         mIncreaseBarChart.invalidate();
     }
 }

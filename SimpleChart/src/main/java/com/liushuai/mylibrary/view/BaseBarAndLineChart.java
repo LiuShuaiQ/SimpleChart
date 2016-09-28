@@ -15,7 +15,7 @@ import com.liushuai.mylibrary.utils.ChartCalUtils;
 
 /**
  * Base Class Of the BarChart and LineChart<br/>
- * (柱状图和折线图的基类)
+ * (柱状图和折线图的基类，所有的类似的图都会继承此类)
  * Created by LiuShuai on 2016/9/12.
  */
 public abstract class BaseBarAndLineChart extends BaseChart {

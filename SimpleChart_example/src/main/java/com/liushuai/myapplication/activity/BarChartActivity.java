@@ -2,9 +2,12 @@ package com.liushuai.myapplication.activity;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.liushuai.myapplication.R;
 import com.liushuai.mylibrary.data.BarAndLineChartData;
+import com.liushuai.mylibrary.data.IEntity;
+import com.liushuai.mylibrary.listener.OnValueClickListener;
 import com.liushuai.mylibrary.view.BarChart;
 
 import java.util.ArrayList;
@@ -54,5 +57,12 @@ public class BarChartActivity extends BaseActivity {
         mBarChart.setBackLineColor(Color.parseColor("#a0a0a0"));
         mBarChart.setAxisColor(Color.parseColor("#a0a0a0"));
         mBarChart.invalidate();
+
+        mBarChart.setOnValueClickListener(new OnValueClickListener() {
+            @Override
+            public void onBarValueClick(int index, IEntity entity) {
+                Toast.makeText(mContext, "BarChart click--->" + index, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

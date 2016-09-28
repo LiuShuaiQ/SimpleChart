@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.FloatProperty;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.liushuai.mylibrary.R;
 import com.liushuai.mylibrary.data.BarAndLineChartData;
@@ -14,6 +16,7 @@ import com.liushuai.mylibrary.data.Entity;
 import com.liushuai.mylibrary.data.IData;
 import com.liushuai.mylibrary.data.IEntity;
 import com.liushuai.mylibrary.formatter.ValueFormatter;
+import com.liushuai.mylibrary.listener.OnValueClickListener;
 import com.liushuai.mylibrary.model.RectModel;
 import com.liushuai.mylibrary.utils.ChartCalUtils;
 
@@ -24,6 +27,7 @@ import com.liushuai.mylibrary.utils.ChartCalUtils;
 
 public class IncreaseBarChart extends BaseBarAndLineChart {
 
+    private static final String TAG = "IncreaseBarChart";
     /**
      * 柱子的颜色
      */
@@ -36,6 +40,8 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
 
     private Paint mBarPaint;
     private RectModel[][] mRectModels;
+
+    private OnValueClickListener mOnValueClickListener;
 
     public IncreaseBarChart(Context context) {
         super(context);
@@ -88,7 +94,7 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
             //画增长图，对x轴进行平移
             canvas.save();
             if (i != 0) {
-                canvas.translate(0, -1 *   ChartCalUtils.transValueToHeight(sumValue(j,i),Float.valueOf(mChartData.getYLeftAxisString().get(0)),
+                canvas.translate(0, -1 * ChartCalUtils.transValueToHeight(sumValue(j, i), Float.valueOf(mChartData.getYLeftAxisString().get(0)),
                         Float.valueOf(mChartData.getYLeftAxisString().get(mChartData.getYLeftAxisString().size() - 1)), mHeight));
             }
 
@@ -101,16 +107,17 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
 
     /**
      * 计算前几个的高度
+     *
      * @param index
      * @param j
      * @return
      */
-    private float sumValue(int index,int j){
+    private float sumValue(int index, int j) {
         float sumH = 0;
-        if (index<mChartData.getValues().length){
-            if (j<mChartData.getValues()[index].length){
-                for (int i=0;i<j;i++){
-                    sumH+=mChartData.getValues()[index][i];
+        if (index < mChartData.getValues().length) {
+            if (j < mChartData.getValues()[index].length) {
+                for (int i = 0; i < j; i++) {
+                    sumH += mChartData.getValues()[index][i];
                 }
             }
         }
@@ -157,5 +164,51 @@ public class IncreaseBarChart extends BaseBarAndLineChart {
             }
         });
         mChartData.refreshYText();
+    }
+
+    private int preTouchAction;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.d(TAG, "柱状图--->ACTION_DOWN");
+
+                preTouchAction = MotionEvent.ACTION_DOWN;
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.d(TAG, "柱状图--->ACTION_UP");
+                if (preTouchAction == MotionEvent.ACTION_DOWN) {
+                    if (mRectModels != null) {
+                        for (int i = 0; i < mRectModels.length; i++) {
+                            for (int j = 0; j < mRectModels[i].length; j++) {
+                                if (mRectModels[i][j].isPointIn(event.getX(), event.getY())) {
+                                    Log.d(TAG, "BarChart is click--->(i,j)=(" + i + "," + j + ")");
+                                    if (mOnValueClickListener != null) {
+                                        mOnValueClickListener.onBarValueClick(i, mChartData.getEntity().get(i).get(j));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                preTouchAction = MotionEvent.ACTION_UP;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.d(TAG, "柱状图--->ACTION_MOVE");
+
+                preTouchAction = MotionEvent.ACTION_MOVE;
+
+                break;
+        }
+        return true;
+    }
+
+    public OnValueClickListener getOnValueClickListener() {
+        return mOnValueClickListener;
+    }
+
+    public void setOnValueClickListener(OnValueClickListener onValueClickListener) {
+        mOnValueClickListener = onValueClickListener;
     }
 }
