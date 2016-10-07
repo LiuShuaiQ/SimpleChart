@@ -123,5 +123,3 @@ public class BarChartActivity extends BaseActivity {
 }
 
 ```
-
-这里面的全部代码我都放到github上了，github地址：https://github.com/LiuShuaiQ/SimpleChart
