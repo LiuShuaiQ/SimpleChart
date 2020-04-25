@@ -2,23 +2,23 @@
 This is the library of a simple chart.
 It is has same simple chart ,such as BarChart,LineChart,PanelView and CombinedChart.
 
-最近将Android中的仪表盘，柱状图，折线图和一些混合图进行了封装，在自己进行封装的过程中，遇到了许多的bugs，也遇到了许多在程序结构设计中的问题，在这过程中我参考了一些大神写的框架，MPCharts以及hellocharts，这些Android上的图表框架已经非常成熟，我写一个自己的图表框架主要目的是当一些图表不能在这些框架里找到时使用一下，现在的1.0版本还有许多的不足的地方。
-1、仪表盘视图。
+最近将Android中的仪表盘，柱状图，折线图和一些混合图进行了封装，在自己进行封装的过程中，遇到了许多的bugs，也遇到了许多在程序结构设计中的问题，在这过程中我参考了一些大神写的框架，`MPCharts`以及`hellocharts`，这些Android上的图表框架已经非常成熟，我写一个自己的图表框架主要目的是当一些图表不能在这些框架里找到时使用一下，现在的1.0版本还有许多的不足的地方。
+1. 仪表盘视图。
 ![这里写图片描述](http://img.blog.csdn.net/20161007162458182)
-2、柱状图。
+2. 柱状图。
 ![这里写图片描述](http://img.blog.csdn.net/20161007162851471)
-3、折线图。
+3. 折线图。
 ![这里写图片描述](http://img.blog.csdn.net/20161007162921535)
-4、柱状图和折线图混合。
+4. 柱状图和折线图混合。
 ![这里写图片描述](http://img.blog.csdn.net/20161007163003325)
-5、增长图。
+5. 增长图。
 ![这里写图片描述](http://img.blog.csdn.net/20161007163048184)
 
 
 例子（以柱状图为例）：
 布局：
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,9 +47,9 @@ It is has same simple chart ,such as BarChart,LineChart,PanelView and CombinedCh
 
 ```
 
-然后是主Activity中的代码，这里面我用到了ButterKnife框架。
+然后是主Activity中的代码，这里面我用到了`ButterKnife`框架。
 
-```
+```java
 package com.liushuai.myapplication.activity;
 
 import android.graphics.Color;
